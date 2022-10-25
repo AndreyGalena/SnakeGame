@@ -1,0 +1,19 @@
+@import '_nullstyle';
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    font-size: 75px;
+    color: green;
+    margin: 20px 50px;
+}
+
+canvas{
+    box-shadow: black 20px 10px 50px;
+    background-image: url('../img/bg.jpg');
+}
