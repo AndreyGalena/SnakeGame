@@ -23,5 +23,5 @@ export let snake = {
         yVelocity: 0,
         imgHead: imgHeadRight,
 
-        bodyLength: 40,
+        bodyLength: 200,
 }
