@@ -8,7 +8,7 @@ export class Body {
     constructor(x, y) {
         this.x     = x;
         this.y     = y;
-        this.color = 'green';
+        this.color = '#197440';
         this.r     = 10;
     }
     
@@ -23,7 +23,6 @@ export class Body {
 
 // Создаем тело
 export function doBody() {
-    // console.log(partsTile.length);
     // Рисуем все части тела.(если они есть в списке)
     for(let i=0; i < partsTile.length; i++) {
         partsTile[i].drawBody();
@@ -42,15 +41,18 @@ export function doBody() {
     }
 
     // Изменяем свойство последних обектов(кусочков)
-    // if(partsTile.length > 15){
-    //     for(let i=0; i < 10; i++) {
-    //         partsTile[i] ['color'] = 'red';
-    //         partsTile[i] ['r'] = 6+i;
-    //         console.log(partsTile[i] ['r']);
-    //     }
-    //     partsTile[11] ['color'] = 'green';
-    //     // console.log(partsTile);
-    // }
+    if(partsTile.length > 45){
+        // изменяет хвост
+        let t = 4;
+        let b = 0;
+        for(let i=5; i < 10; i++){
+            partsTile[i]
+            for(;b < t; b++){
+                partsTile[b] ['r'] = i;
+            }
+            t += 4;
+        }
+    }
 }
 
 // Рисуем змею.
