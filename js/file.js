@@ -23,6 +23,12 @@ function drawGame(){
     changeSnakePosition();
     doBody();
     drawSnake();
+
+    ctx.fillStyle = "Red";
+    ctx.beginPath();
+    ctx.arc(snake.startPointX, snake.startPointY, 8, 0, Math.PI * 2, false);
+    ctx.fill();
+
     window.requestAnimationFrame(drawGame);
 };
 

@@ -28,8 +28,8 @@ export function doBody() {
         partsTile[i].drawBody();
     }
 
-    // Создаём и сохраняем кусочки тела
-    partsTile.push(new Body(snake.startPointX-5, snake.startPointY+20));
+    // Создаём и сохраняем кусочки тела(задаёт начало тела)
+    partsTile.push(new Body(snake.startPointX + snake.offsetBodyX, snake.startPointY + snake.offsetBodyY));// 5, 20
     // Обновляет положение головы
     snake.headX = snake.startPointX + snake.offsetX;
     snake.headY = snake.startPointY + snake.offsetY;
@@ -82,8 +82,8 @@ export function keyDown(event) {
         snake.xVelocity =  0;
         snake.imgHead   = imgHeadUp;
         // передаём погрешность img относительно направления
-        snake.offsetX   = -25;
-        snake.offsetY   = -22;
+        snake.offsetX   = -20;
+        snake.offsetY   = -26;
     }
     // down
     if(event.keyCode == 40){
@@ -93,8 +93,8 @@ export function keyDown(event) {
         snake.xVelocity = 0;
         snake.imgHead   = imgHeadDown;
         // передаём погрешность img относительно направления
-        snake.offsetX   = -25;
-        snake.offsetY   = 22;
+        snake.offsetX   = -20;
+        snake.offsetY   = -15;
     }
     // left
     if(event.keyCode == 37) {
@@ -104,8 +104,8 @@ export function keyDown(event) {
         snake.xVelocity = -1;
         snake.imgHead   = imgHeadLeft;
         // передаём погрешность img относительно направления
-        snake.offsetX   = -50;
-        snake.offsetY   = 0;
+        snake.offsetX   = -24;
+        snake.offsetY   = -20;
     }
     // ritht
     if(event.keyCode == 39) {
@@ -115,7 +115,7 @@ export function keyDown(event) {
         snake.xVelocity = 1;
         snake.imgHead   = imgHeadRight;
         // передаём погрешность img относительно направления
-        snake.offsetX   = 0;
-        snake.offsetY   = 0;
+        snake.offsetX   = -15;
+        snake.offsetY   = -20;
     }
 }
