@@ -1,5 +1,5 @@
 import { ctx, partsTile } from './file.js';
-import { snake } from './_variables.js';
+import { snake, imgEyes, imgMouth } from './_variables.js';
 
 // Класс кусочков тела
 export class Body {
@@ -16,7 +16,6 @@ export class Body {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
         ctx.fill();
-        // console.log('drawBody');
     }
 }
 
@@ -27,17 +26,22 @@ export function drawSnake() {
     for(let i=0; i < partsTile.length; i++) {
         partsTile[i].drawBody();
     }
+    //
+    if(partsTile.length < snake.bodyLength) snake.bodyX -= 1;
+    // if(partsTile.length >= snake.bodyLength) snake.bodyX = 0;
 
     // Создаём и сохраняем кусочки тела(задаёт начало тела)
-    partsTile.push(new Body(snake.headX, snake.headY));// 5, 20
+    partsTile.push(new Body(snake.headX+snake.bodyX, snake.headY));// 5, 20
     // Обновляет положение головы
     // snake.headX = snake.startPointX + snake.offsetX;
     // snake.headY = snake.startPointY + snake.offsetY;
 
     // Удаляем лишний кусочки хвоста.
-    while (partsTile.length > snake.bodyLength) {
-        // удаляем нулевой элемент(происходит здвиг масива).
-        partsTile.shift();
+    if(snake.xVelocity != 0 && snake.yVelocity != 0) {
+        while (partsTile.length > snake.bodyLength) {
+            // удаляем нулевой элемент(происходит здвиг масива).
+            partsTile.shift();
+        }
     }
 
     // Изменяем свойство последних обектов(кусочков)
@@ -56,10 +60,31 @@ export function drawSnake() {
 }
 
 // Рисуем змею.
-// export function drawSnake() {
-//     ctx.drawImage(snake.imgHead, snake.headX, snake.headY, 40, 40);
-//     // ctx.strokeRect(snake.headX, snake.headY, 40, 40);
-// }
+export function drawHead() {
+    ctx.fillStyle = "#197440";
+    // ctx.fillStyle = "white";
+    ctx.beginPath();
+    ctx.arc(snake.headX, snake.headY, 10, 0, Math.PI * 2, false);
+    ctx.fill();
+    drawEyes(); // глаза.
+    drawMouth(); // рот
+}
+
+// Рисует глаза.
+function drawEyes() {
+    ctx.drawImage(imgEyes, 4, 4, 20, 20, snake.headX-17, snake.headY-17, 15, 15); // левый глаз
+    ctx.drawImage(imgEyes, 5, 32, 20, 20, snake.headX-17, snake.headY+1, 15, 15);// правый глаз
+}
+
+// Рисует рот.
+function drawMouth() {
+    ctx.fillStyle = "black";
+    ctx.beginPath();
+    ctx.arc(snake.headX+6, snake.headY-3, 1, 0, Math.PI * 2, false);
+    ctx.arc(snake.headX+6, snake.headY+3, 1, 0, Math.PI * 2, false);
+    ctx.fill();
+    // ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 15, 20);
+}
 
 // Двигаем змею.
 export function changeSnakePosition() {
