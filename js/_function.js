@@ -1,7 +1,5 @@
 import { ctx, partsTile } from './file.js';
-import { imgHeadRight, imgHeadLeft, 
-    imgHeadUp, imgHeadDown, 
-    snake } from './_variables.js';
+import { snake } from './_variables.js';
 
 // Класс кусочков тела
 export class Body {
@@ -18,21 +16,23 @@ export class Body {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
         ctx.fill();
+        // console.log('drawBody');
     }
 }
 
 // Создаем тело
-export function doBody() {
+export function drawSnake() {
+    // console.log('drawSnake');
     // Рисуем все части тела.(если они есть в списке)
     for(let i=0; i < partsTile.length; i++) {
         partsTile[i].drawBody();
     }
 
     // Создаём и сохраняем кусочки тела(задаёт начало тела)
-    partsTile.push(new Body(snake.startPointX + snake.offsetBodyX, snake.startPointY + snake.offsetBodyY));// 5, 20
+    partsTile.push(new Body(snake.headX, snake.headY));// 5, 20
     // Обновляет положение головы
-    snake.headX = snake.startPointX + snake.offsetX;
-    snake.headY = snake.startPointY + snake.offsetY;
+    // snake.headX = snake.startPointX + snake.offsetX;
+    // snake.headY = snake.startPointY + snake.offsetY;
 
     // Удаляем лишний кусочки хвоста.
     while (partsTile.length > snake.bodyLength) {
@@ -56,15 +56,15 @@ export function doBody() {
 }
 
 // Рисуем змею.
-export function drawSnake() {
-    ctx.drawImage(snake.imgHead, snake.headX, snake.headY, 40, 40);
-    // ctx.strokeRect(snake.headX, snake.headY, 40, 40);
-}
+// export function drawSnake() {
+//     ctx.drawImage(snake.imgHead, snake.headX, snake.headY, 40, 40);
+//     // ctx.strokeRect(snake.headX, snake.headY, 40, 40);
+// }
 
 // Двигаем змею.
 export function changeSnakePosition() {
-    snake.startPointX = snake.startPointX + snake.xVelocity;
-    snake.startPointY = snake.startPointY + snake.yVelocity;
+    snake.headX = snake.headX + snake.xVelocity;
+    snake.headY = snake.headY + snake.yVelocity;
 }
 
 // Обрабатываем события.
@@ -80,10 +80,10 @@ export function keyDown(event) {
             return;
         snake.yVelocity = -1;
         snake.xVelocity =  0;
-        snake.imgHead   = imgHeadUp;
+        // snake.imgHead   = imgHeadUp;
         // передаём погрешность img относительно направления
-        snake.offsetX   = -20;
-        snake.offsetY   = -26;
+        // snake.offsetX   = -20;
+        // snake.offsetY   = -26;
     }
     // down
     if(event.keyCode == 40){
@@ -91,10 +91,10 @@ export function keyDown(event) {
             return;
         snake.yVelocity = 1;
         snake.xVelocity = 0;
-        snake.imgHead   = imgHeadDown;
+        // snake.imgHead   = imgHeadDown;
         // передаём погрешность img относительно направления
-        snake.offsetX   = -20;
-        snake.offsetY   = -15;
+        // snake.offsetX   = -20;
+        // snake.offsetY   = -15;
     }
     // left
     if(event.keyCode == 37) {
@@ -102,10 +102,10 @@ export function keyDown(event) {
             return;
         snake.yVelocity =  0;
         snake.xVelocity = -1;
-        snake.imgHead   = imgHeadLeft;
+        // snake.imgHead   = imgHeadLeft;
         // передаём погрешность img относительно направления
-        snake.offsetX   = -24;
-        snake.offsetY   = -20;
+        // snake.offsetX   = -24;
+        // snake.offsetY   = -20;
     }
     // ritht
     if(event.keyCode == 39) {
@@ -113,9 +113,9 @@ export function keyDown(event) {
             return;
         snake.yVelocity = 0;
         snake.xVelocity = 1;
-        snake.imgHead   = imgHeadRight;
+        // snake.imgHead   = imgHeadRight;
         // передаём погрешность img относительно направления
-        snake.offsetX   = -15;
-        snake.offsetY   = -20;
+        // snake.offsetX   = -15;
+        // snake.offsetY   = -20;
     }
 }

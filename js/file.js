@@ -1,16 +1,15 @@
 import { drawSnake, keyDown, 
-    changeSnakePosition, Body,
-    doBody } from './_function.js';
-import { snake } from './_variables.js';
+    changeSnakePosition } from './_function.js';
+import { snake, imgHeadLeft } from './_variables.js';
 
 export  let cvs = document.getElementById("canvas"), // cvs = canvas
             ctx = cvs.getContext('2d');  // cts = context
 
 // Основные переменные
-snake.startPointX = cvs.width / 2;
-snake.startPointY = cvs.height / 2;
-snake.bodyX = snake.startPointX;
-snake.bodyY = snake.startPointY;
+snake.headX = cvs.width / 2;
+snake.headY = cvs.height / 2;
+snake.bodyX = snake.headX;
+snake.bodyY = snake.headY;
 
 export const partsTile = [];
 
@@ -21,13 +20,14 @@ document.addEventListener('keydown', keyDown);
 function drawGame(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     changeSnakePosition();
-    doBody();
     drawSnake();
 
-    ctx.fillStyle = "Red";
+    ctx.fillStyle = "#197440";
     ctx.beginPath();
-    ctx.arc(snake.startPointX, snake.startPointY, 8, 0, Math.PI * 2, false);
+    ctx.arc(snake.headX, snake.headY, 10, 0, Math.PI * 2, false);
     ctx.fill();
+    ctx.drawImage(imgHeadLeft, 4, 4, 20, 20, snake.headX-15, snake.headY-17, 15, 15); // левый глаз
+    ctx.drawImage(imgHeadLeft, 5, 32, 20, 20, snake.headX-15, snake.headY+1, 15, 15);// правый глаз
 
     window.requestAnimationFrame(drawGame);
 };
