@@ -1,6 +1,6 @@
 import { drawSnake, keyDown, 
-    changeSnakePosition, 
-    drawHead} from './_function.js';
+         changeSnakePosition, 
+         drawHead} from './_function.js';
 import { snake } from './_variables.js';
 
 export  let cvs = document.getElementById("canvas"), // cvs = canvas
@@ -9,8 +9,6 @@ export  let cvs = document.getElementById("canvas"), // cvs = canvas
 // Основные переменные
 snake.headX = cvs.width / 2;
 snake.headY = cvs.height / 2;
-// snake.bodyX = snake.headX;
-// snake.bodyY = snake.headY;
 
 export const partsTile = [];
 

@@ -1,5 +1,5 @@
 import { ctx, partsTile } from './file.js';
-import { snake, imgEyes, imgMouth } from './_variables.js';
+import { snake, imgEyes } from './_variables.js';
 
 // Класс кусочков тела
 export class Body {
@@ -21,23 +21,18 @@ export class Body {
 
 // Создаем тело
 export function drawSnake() {
-    // console.log('drawSnake');
     // Рисуем все части тела.(если они есть в списке)
     for(let i=0; i < partsTile.length; i++) {
         partsTile[i].drawBody();
     }
-    //
-    if(partsTile.length < snake.bodyLength) snake.bodyX -= 1;
-    // if(partsTile.length >= snake.bodyLength) snake.bodyX = 0;
 
     // Создаём и сохраняем кусочки тела(задаёт начало тела)
-    partsTile.push(new Body(snake.headX+snake.bodyX, snake.headY));// 5, 20
-    // Обновляет положение головы
-    // snake.headX = snake.startPointX + snake.offsetX;
-    // snake.headY = snake.startPointY + snake.offsetY;
+    if(snake.xVelocity || snake.yVelocity) {
+        partsTile.push(new Body(snake.headX, snake.headY));
+    }
 
     // Удаляем лишний кусочки хвоста.
-    if(snake.xVelocity != 0 && snake.yVelocity != 0) {
+    if(snake.xVelocity || snake.yVelocity) {
         while (partsTile.length > snake.bodyLength) {
             // удаляем нулевой элемент(происходит здвиг масива).
             partsTile.shift();
@@ -72,16 +67,25 @@ export function drawHead() {
 
 // Рисует глаза.
 function drawEyes() {
-    ctx.drawImage(imgEyes, 4, 4, 20, 20, snake.headX-17, snake.headY-17, 15, 15); // левый глаз
-    ctx.drawImage(imgEyes, 5, 32, 20, 20, snake.headX-17, snake.headY+1, 15, 15);// правый глаз
+    ctx.drawImage(imgEyes, 
+        4, 4, 20, 20, 
+        snake.headX+snake.offsetsEyseLeftX, snake.headY+snake.offsetsEyseLeftY, 15, 15
+        ); // левый глаз
+    ctx.drawImage(imgEyes, 
+        5, 32, 20, 20, 
+        snake.headX+snake.offsetsEyseRightX, snake.headY+snake.offsetsEyseRightY, 15, 15);// правый глаз
 }
 
 // Рисует рот.
 function drawMouth() {
     ctx.fillStyle = "black";
     ctx.beginPath();
-    ctx.arc(snake.headX+6, snake.headY-3, 1, 0, Math.PI * 2, false);
-    ctx.arc(snake.headX+6, snake.headY+3, 1, 0, Math.PI * 2, false);
+    ctx.arc(snake.headX + snake.offsetsMouthLeftX, 
+            snake.headY + snake.offsetsMouthLeftY, 
+            1, 0, Math.PI * 2, false);
+    ctx.arc(snake.headX + snake.offsetsMouthRightX, 
+            snake.headY + snake.offsetsMouthRightY, 
+            1, 0, Math.PI * 2, false);
     ctx.fill();
     // ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 15, 20);
 }
@@ -105,10 +109,17 @@ export function keyDown(event) {
             return;
         snake.yVelocity = -1;
         snake.xVelocity =  0;
-        // snake.imgHead   = imgHeadUp;
         // передаём погрешность img относительно направления
-        // snake.offsetX   = -20;
-        // snake.offsetY   = -26;
+        // глаза
+        snake.offsetsEyseLeftX   = -17;
+        snake.offsetsEyseLeftY   =  1;
+        snake.offsetsEyseRightX  =  3;
+        snake.offsetsEyseRightY  =  1;
+        // нос
+        snake.offsetsMouthLeftX  = -3;
+        snake.offsetsMouthLeftY  = -5;
+        snake.offsetsMouthRightX =  3;
+        snake.offsetsMouthRightY = -5;
     }
     // down
     if(event.keyCode == 40){
@@ -116,10 +127,17 @@ export function keyDown(event) {
             return;
         snake.yVelocity = 1;
         snake.xVelocity = 0;
-        // snake.imgHead   = imgHeadDown;
         // передаём погрешность img относительно направления
-        // snake.offsetX   = -20;
-        // snake.offsetY   = -15;
+        // глаза
+        snake.offsetsEyseLeftX   =  2;
+        snake.offsetsEyseLeftY   = -17;
+        snake.offsetsEyseRightX  = -17;
+        snake.offsetsEyseRightY  = -17;
+        // нос
+        snake.offsetsMouthLeftX  =  3;
+        snake.offsetsMouthLeftY  =  3;
+        snake.offsetsMouthRightX = -3;
+        snake.offsetsMouthRightY =  3;
     }
     // left
     if(event.keyCode == 37) {
@@ -127,10 +145,17 @@ export function keyDown(event) {
             return;
         snake.yVelocity =  0;
         snake.xVelocity = -1;
-        // snake.imgHead   = imgHeadLeft;
         // передаём погрешность img относительно направления
-        // snake.offsetX   = -24;
-        // snake.offsetY   = -20;
+        // глаза
+        snake.offsetsEyseLeftX   =  2;
+        snake.offsetsEyseLeftY   = -17;
+        snake.offsetsEyseRightX  =  2;
+        snake.offsetsEyseRightY  =  1;
+        // нос
+        snake.offsetsMouthLeftX  = -6;
+        snake.offsetsMouthLeftY  = -3;
+        snake.offsetsMouthRightX = -6;
+        snake.offsetsMouthRightY =  3;
     }
     // ritht
     if(event.keyCode == 39) {
@@ -138,9 +163,16 @@ export function keyDown(event) {
             return;
         snake.yVelocity = 0;
         snake.xVelocity = 1;
-        // snake.imgHead   = imgHeadRight;
         // передаём погрешность img относительно направления
-        // snake.offsetX   = -15;
-        // snake.offsetY   = -20;
+        // глаза
+        snake.offsetsEyseLeftX   = -17;
+        snake.offsetsEyseLeftY   = -17;
+        snake.offsetsEyseRightX  = -17;
+        snake.offsetsEyseRightY  =  1;
+        // нос
+        snake.offsetsMouthLeftX  =  6;
+        snake.offsetsMouthLeftY  = -3;
+        snake.offsetsMouthRightX =  6;
+        snake.offsetsMouthRightY =  3;
     }
 }
