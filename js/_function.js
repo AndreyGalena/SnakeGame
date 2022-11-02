@@ -1,5 +1,5 @@
 import { ctx, partsTile } from './file.js';
-import { snake, imgEyes } from './_variables.js';
+import { snake, imgEyes, imgApple } from './_variables.js';
 
 // Класс кусочков тела
 export class Body {
@@ -16,6 +16,28 @@ export class Body {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, false);
         ctx.fill();
+    }
+}
+// Класс фруктов
+export class Fruit {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // Рисуем фрукт
+    drawFruit() {
+        ctx.drawImage(imgApple, this.x, this.y, 40, 40);
+    }
+
+}
+
+// Придворительное создание тела
+export function pushStartBody() {
+    let stepBody = 0;
+    for(let i=0; i < snake.bodyLength; i++) {
+        partsTile.push(new Body(snake.headX-snake.bodyLength+i, 
+                                snake.headY));
     }
 }
 
