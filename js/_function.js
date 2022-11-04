@@ -1,6 +1,8 @@
 import { ctx, partsTile } from './file.js';
 import { snake, imgEyes, imgApple } from './_variables.js';
 
+const gulpSound = new Audio("./music/hrum3.mp3");
+
 // Класс кусочков тела
 export class Body {
     constructor(x, y) {
@@ -30,6 +32,16 @@ export class Fruit {
         ctx.drawImage(imgApple, this.x, this.y, 40, 40);
     }
 
+    // Обработка столкновений.
+    collision() {
+        if((this.x < snake.headX && (this.x+40) > snake.headX) && (this.y < snake.headY && (this.y+40) > snake.headY)) {
+            gulpSound.play(); // проигрует звук.
+            this.x = Math.floor(Math.random() * 820);
+            this.y = Math.floor(Math.random() * 360);
+            snake.bodyLength += 20; // длина змии.
+            snake.sumFruits++; // количество яблок
+        }
+    }
 }
 
 // Придворительное создание тела
@@ -41,19 +53,19 @@ export function pushStartBody() {
     }
 }
 
-// Создаем тело
+// Выводим и пересоздаём кусочки тела.
 export function drawSnake() {
     // Рисуем все части тела.(если они есть в списке)
     for(let i=0; i < partsTile.length; i++) {
         partsTile[i].drawBody();
     }
 
-    // Создаём и сохраняем кусочки тела(задаёт начало тела)
+    // Создаём и сохраняем кусочки тела(задаёт конец тела)
     if(snake.xVelocity || snake.yVelocity) {
         partsTile.push(new Body(snake.headX, snake.headY));
     }
 
-    // Удаляем лишний кусочки хвоста.
+    // Удаляем лишний кусочки хвоста(удаляет начальный кусочек тела).
     if(snake.xVelocity || snake.yVelocity) {
         while (partsTile.length > snake.bodyLength) {
             // удаляем нулевой элемент(происходит здвиг масива).
@@ -112,6 +124,14 @@ function drawMouth() {
     // ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 15, 20);
 }
 
+// Вывод текста количество скушаных яблок.
+export function drawSumFruits() {
+    ctx.fillStyle = 'white'; // цвет_шрифта.
+    ctx.font = "20px Verdana"; // размер, имя_шрифта
+    ctx.fillText(":" + snake.sumFruits, canvas.width-40, 30);
+    ctx.drawImage(imgApple, canvas.width-70, 5, 30, 30);
+}
+
 // Двигаем змею.
 export function changeSnakePosition() {
     snake.headX = snake.headX + snake.xVelocity;
@@ -129,8 +149,16 @@ export function keyDown(event) {
     if(event.keyCode == 38){
         if(snake.yVelocity == 1)
             return;
-        snake.yVelocity = -1;
-        snake.xVelocity =  0;
+        if(snake.sumFruits <= 2) {
+            snake.yVelocity = -1;
+            snake.xVelocity =  0;
+        } else if(snake.sumFruits >= 2) {
+            snake.yVelocity = -2;
+            snake.xVelocity =  0;
+        } else if(snake.sumFruits >= 4) {
+            snake.yVelocity = -4;
+            snake.xVelocity =  0;
+        }
         // передаём погрешность img относительно направления
         // глаза
         snake.offsetsEyseLeftX   = -17;
@@ -147,8 +175,16 @@ export function keyDown(event) {
     if(event.keyCode == 40){
         if(snake.yVelocity == -1)
             return;
-        snake.yVelocity = 1;
-        snake.xVelocity = 0;
+        if(snake.sumFruits <= 2) {
+            snake.yVelocity = 1;
+            snake.xVelocity = 0;
+        } else if(snake.sumFruits >= 2) {
+            snake.yVelocity = 2;
+            snake.xVelocity = 0;
+        } else if(snake.sumFruits >= 4) {
+            snake.yVelocity = 4;
+            snake.xVelocity = 0;
+        }
         // передаём погрешность img относительно направления
         // глаза
         snake.offsetsEyseLeftX   =  2;
@@ -165,8 +201,16 @@ export function keyDown(event) {
     if(event.keyCode == 37) {
         if(snake.xVelocity == 1)
             return;
-        snake.yVelocity =  0;
-        snake.xVelocity = -1;
+        if(snake.sumFruits <= 2) {
+            snake.yVelocity =  0;
+            snake.xVelocity = -1;
+        } else if(snake.sumFruits >= 2) {
+            snake.yVelocity =  0;
+            snake.xVelocity = -2;
+        } else if(snake.sumFruits >= 4) {
+            snake.yVelocity =  0;
+            snake.xVelocity = -4;
+        }
         // передаём погрешность img относительно направления
         // глаза
         snake.offsetsEyseLeftX   =  2;
@@ -183,8 +227,16 @@ export function keyDown(event) {
     if(event.keyCode == 39) {
         if(snake.xVelocity == -1)
             return;
-        snake.yVelocity = 0;
-        snake.xVelocity = 1;
+        if(snake.sumFruits <= 2) {
+            snake.yVelocity = 0;
+            snake.xVelocity = 1;
+        } else if(snake.sumFruits >= 2) {
+            snake.yVelocity = 0;
+            snake.xVelocity = 2;
+        } else if(snake.sumFruits >= 4) {
+            snake.yVelocity = 0;
+            snake.xVelocity = 4;
+        }
         // передаём погрешность img относительно направления
         // глаза
         snake.offsetsEyseLeftX   = -17;

@@ -1,6 +1,7 @@
 import { drawSnake, Fruit, keyDown, 
          changeSnakePosition, 
-         drawHead, pushStartBody} from './_function.js';
+         drawHead, pushStartBody,
+         drawSumFruits} from './_function.js';
 import { snake } from './_variables.js';
 
 export  let cvs = document.getElementById("canvas"), // cvs = canvas
@@ -25,7 +26,8 @@ function drawGame(){
     drawSnake();
     drawHead();
     myFruit.drawFruit();
-
+    myFruit.collision();
+    drawSumFruits();
     window.requestAnimationFrame(drawGame);
 };
 

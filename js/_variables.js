@@ -9,8 +9,9 @@ export let snake = {
         headY: 0,
         xVelocity: 0,
         yVelocity: 0,
-        fruitX: Math.floor(Math.random() * 820),
-        fruitY: Math.floor(Math.random() * 360),
+        fruitX: 600,
+        fruitY: 176,
+        sumFruits: 0,
         // смещение при поворотах.
         offsetsEyseLeftX:  -17,
         offsetsEyseLeftY:  -17,
