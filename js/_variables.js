@@ -22,5 +22,5 @@ export let snake = {
         offsetsMouthRightX: 6,
         offsetsMouthRightY: 3,
         // количество кусочков тела.
-        bodyLength: 100,
+        bodyLength: 50,
 }

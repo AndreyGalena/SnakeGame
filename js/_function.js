@@ -1,7 +1,7 @@
-import { ctx, partsTile } from './file.js';
+import { ctx, cvs, partsTile, myX, myY } from './file.js';
 import { snake, imgEyes, imgApple } from './_variables.js';
 
-const gulpSound = new Audio("./music/hrum3.mp3");
+const gulpSound = new Audio("./music/hrum.mp3");
 
 // Класс кусочков тела
 export class Body {
@@ -20,6 +20,7 @@ export class Body {
         ctx.fill();
     }
 }
+
 // Класс фруктов
 export class Fruit {
     constructor(x, y) {
@@ -38,7 +39,7 @@ export class Fruit {
             gulpSound.play(); // проигрует звук.
             this.x = Math.floor(Math.random() * 820);
             this.y = Math.floor(Math.random() * 360);
-            snake.bodyLength += 20; // длина змии.
+            // snake.bodyLength += 20; // длина змии.
             snake.sumFruits++; // количество яблок
         }
     }
@@ -88,10 +89,9 @@ export function drawSnake() {
     }
 }
 
-// Рисуем змею.
+// Рисуем голову.
 export function drawHead() {
     ctx.fillStyle = "#197440";
-    // ctx.fillStyle = "white";
     ctx.beginPath();
     ctx.arc(snake.headX, snake.headY, 10, 0, Math.PI * 2, false);
     ctx.fill();
@@ -138,6 +138,43 @@ export function changeSnakePosition() {
     snake.headY = snake.headY + snake.yVelocity;
 }
 
+// Проверка на окончание игры
+export function isGameOver() {
+    let gameOver = false;
+
+    // Столковения со стенами
+    if(snake.headX < 10 || snake.headX > (cvs.width-10)) {
+        gameOver = true;
+    } else if(snake.headY < 10 || snake.headY > (cvs.height-10)) {
+        gameOver = true;
+    }
+
+    // Обрабатывает столкновения головы и тела.
+    for(let i=0; i < (partsTile.length-50); i++) {
+        let part = partsTile[i];
+        if ((part.x-15) < snake.headX && (part.x+15) > snake.headX 
+                                      && 
+            (part.y-15) < snake.headY && (part.y+15) > snake.headY) {
+            gameOver = true;
+            break;
+        }
+    }
+
+    if(gameOver) { // вывод об оканчании игры.
+        // работа с градиентом.
+        let gradient = ctx.createLinearGradient(0, 0, cvs.width, 0);
+        gradient.addColorStop("0", "magenta");
+        gradient.addColorStop("0.5", "blue");
+        gradient.addColorStop("1.0", "red");
+        // вывод game over
+        ctx.fillStyle = gradient;
+        ctx.font = "100px Verdana";
+        ctx.fillText("Game Over!", cvs.width / 6.5, cvs.height / 2);
+    }
+
+    return gameOver;
+}
+
 // Обрабатываем события.
 export function keyDown(event) {
     // z - стоп
@@ -147,17 +184,19 @@ export function keyDown(event) {
     }
     // up
     if(event.keyCode == 38){
-        if(snake.yVelocity == 1)
-            return;
+        if(snake.yVelocity == 1 || snake.yVelocity == 2 
+            || snake.yVelocity == 4) {
+                return;
+        }
         if(snake.sumFruits <= 2) {
+            snake.xVelocity =  0;
             snake.yVelocity = -1;
+        } else if(snake.sumFruits <= 4) {
             snake.xVelocity =  0;
-        } else if(snake.sumFruits >= 2) {
             snake.yVelocity = -2;
-            snake.xVelocity =  0;
         } else if(snake.sumFruits >= 4) {
-            snake.yVelocity = -4;
             snake.xVelocity =  0;
+            snake.yVelocity = -4;
         }
         // передаём погрешность img относительно направления
         // глаза
@@ -173,17 +212,19 @@ export function keyDown(event) {
     }
     // down
     if(event.keyCode == 40){
-        if(snake.yVelocity == -1)
-            return;
+        if(snake.yVelocity == -1 || snake.yVelocity == -2 
+            || snake.yVelocity == -4) {
+                return;
+        }
         if(snake.sumFruits <= 2) {
+            snake.xVelocity = 0;
             snake.yVelocity = 1;
+        } else if(snake.sumFruits <= 4) {
             snake.xVelocity = 0;
-        } else if(snake.sumFruits >= 2) {
             snake.yVelocity = 2;
-            snake.xVelocity = 0;
         } else if(snake.sumFruits >= 4) {
-            snake.yVelocity = 4;
             snake.xVelocity = 0;
+            snake.yVelocity = 4;
         }
         // передаём погрешность img относительно направления
         // глаза
@@ -199,17 +240,19 @@ export function keyDown(event) {
     }
     // left
     if(event.keyCode == 37) {
-        if(snake.xVelocity == 1)
-            return;
+        if(snake.xVelocity == 1 || snake.xVelocity == 2 
+            || snake.xVelocity == 4) {
+                return;
+        }
         if(snake.sumFruits <= 2) {
-            snake.yVelocity =  0;
             snake.xVelocity = -1;
-        } else if(snake.sumFruits >= 2) {
             snake.yVelocity =  0;
+        } else if(snake.sumFruits <= 4) {
             snake.xVelocity = -2;
-        } else if(snake.sumFruits >= 4) {
             snake.yVelocity =  0;
+        } else if(snake.sumFruits >= 4) {
             snake.xVelocity = -4;
+            snake.yVelocity =  0;
         }
         // передаём погрешность img относительно направления
         // глаза
@@ -225,17 +268,19 @@ export function keyDown(event) {
     }
     // ritht
     if(event.keyCode == 39) {
-        if(snake.xVelocity == -1)
-            return;
+        if(snake.xVelocity == -1 || snake.xVelocity == -2 
+            || snake.xVelocity == -4) {
+                return;
+        }
         if(snake.sumFruits <= 2) {
-            snake.yVelocity = 0;
             snake.xVelocity = 1;
-        } else if(snake.sumFruits >= 2) {
             snake.yVelocity = 0;
+        } else if(snake.sumFruits <= 4) {
             snake.xVelocity = 2;
-        } else if(snake.sumFruits >= 4) {
             snake.yVelocity = 0;
+        } else if(snake.sumFruits >= 4) {
             snake.xVelocity = 4;
+            snake.yVelocity = 0;
         }
         // передаём погрешность img относительно направления
         // глаза
