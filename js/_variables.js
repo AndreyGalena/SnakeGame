@@ -9,9 +9,10 @@ export let snake = {
         headY: 0,
         xVelocity: 0,
         yVelocity: 0,
-        fruitX: 600,
+        fruitX: 0,
         fruitY: 176,
         sumFruits: 0,
+        font: 50,
         // смещение при поворотах.
         offsetsEyseLeftX:  -17,
         offsetsEyseLeftY:  -17,
@@ -23,4 +24,7 @@ export let snake = {
         offsetsMouthRightY: 3,
         // количество кусочков тела.
         bodyLength: 100,
+
+        os: 0,
+        widthScrin: 0,
 }

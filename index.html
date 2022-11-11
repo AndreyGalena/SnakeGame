@@ -9,17 +9,28 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- Нужно если выскакивает ошибка favicon.ico -->
     <link rel="icon" href="data:;base64,=">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mobile-detect/1.4.4/mobile-detect.min.js"></script>
 </head>
 
 <body>
-    <h1>Canvas &#8677; &#9812; &#8675; &#7562;</h1>
-    <canvas width='860' height='400' id="canvas">Обновите браузер</canvas>
-
-    <h2 style="margin: 50px 10px 20px;">Выявленые проблемы</h2>
-    <p style="padding: 0 0 50px;">
-        ► При увеличении скорости змея растягивается.<br>
-        ► Нужно поработать с фоновой музыкай.
-    </p>
+    <h1>Snake Game V-04.02.00</h1>
+    <!-- &#8677; &#9812; &#8675; &#7562; -->
+    <canvas id="canvas">Обновите браузер</canvas>
+    <!-- width='860' height='400' -->
+    <div class="blockButton">
+        <button id="up">
+            <img class="arrowImg arrowImgUp" src="./img/arrow/arrow_Up.png" alt="Up">
+        </button>
+        <button id="down">
+            <img class="arrowImg arrowImgDown" src="./img/arrow/arrow_Down.png" alt="Down">
+        </button>
+        <button id="left">
+            <img class="arrowImg arrowImgLeft" src="./img/arrow/arrow_Left.png" alt="Left">
+        </button>
+        <button id="right">
+            <img class="arrowImg arrowImgRight" src="./img/arrow/arrow_Right.png" alt="Right">
+        </button>
+    </div>
 
     <script src="./js/file.js" type="module"></script>
 </body>

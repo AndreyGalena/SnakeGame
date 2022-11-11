@@ -2,6 +2,11 @@ import { ctx, cvs, partsTile } from './file.js';
 import { snake, imgEyes, imgApple } from './_variables.js';
 
 const gulpSound = new Audio("./music/hrum.mp3");
+// Определяет устройство.
+// export function myOS(detect) {
+//     document.write('Моя OS ' + detect.os() + "<br>");
+//     console.log('Моя OS ' + detect.os());
+// }
 
 // Класс кусочков тела
 export class Body {
@@ -37,11 +42,39 @@ export class Fruit {
     collision() {
         if ((this.x < snake.headX && (this.x + 40) > snake.headX) && (this.y < snake.headY && (this.y + 40) > snake.headY)) {
             gulpSound.play(); // проигрует звук.
-            this.x = Math.floor(Math.random() * 820);
+            this.x = Math.floor(Math.random() * (cvs.width-35));
             this.y = Math.floor(Math.random() * 360);
             // snake.bodyLength += 20; // длина змии.
             snake.sumFruits++; // количество яблок
         }
+    }
+}
+
+// Задаём размер игровой доски.
+export function screenSize() {
+    if(snake.widthScrin > 860){
+        cvs.width = 860;
+    }else {
+        cvs.width  = snake.widthScrin - 20;
+    }
+    cvs.height = 400;
+}
+
+// Запускает событие при мобильных устройствах.
+export function mobilClick(event) {
+    let element = event.target;
+    if(element.classList.contains("arrowImgUp")){
+        console.log("Up");
+        clickUp();
+    }else if(element.classList.contains("arrowImgDown")) {
+        console.log("Down");
+        clickDown();
+    }else if(element.classList.contains("arrowImgLeft")) {
+        console.log("Left");
+        clickLeft();
+    }else if(element.classList.contains("arrowImgRight")) {
+        console.log("Right");
+        clickRight();
     }
 }
 
@@ -130,6 +163,7 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
+    ctx.fillText(snake.os, 10, 30);
 }
 
 // Двигаем змею.
@@ -168,15 +202,129 @@ export function isGameOver() {
         gradient.addColorStop("1.0", "red");
         // вывод game over
         ctx.fillStyle = gradient;
-        ctx.font = "100px Verdana";
+        ctx.font = `${cvs.width / 10}px Verdana`;
         ctx.fillText("Game Over!", cvs.width / 6.5, cvs.height / 2);
     }
 
     return gameOver;
 }
 
+export function clickUp() {
+    if (snake.yVelocity == 1 || snake.yVelocity == 2
+        || snake.yVelocity == 4) {
+        return;
+    }
+    if (snake.sumFruits <= 2) {
+        snake.xVelocity = 0;
+        snake.yVelocity = -1;
+    } else if (snake.sumFruits <= 4) {
+        snake.xVelocity = 0;
+        snake.yVelocity = -2;
+    } else if (snake.sumFruits >= 4) {
+        snake.xVelocity = 0;
+        snake.yVelocity = -4;
+    }
+    // передаём погрешность img относительно направления
+    // глаза
+    snake.offsetsEyseLeftX = -17;
+    snake.offsetsEyseLeftY = 1;
+    snake.offsetsEyseRightX = 3;
+    snake.offsetsEyseRightY = 1;
+    // нос
+    snake.offsetsMouthLeftX = -3;
+    snake.offsetsMouthLeftY = -5;
+    snake.offsetsMouthRightX = 3;
+    snake.offsetsMouthRightY = -5;
+}
+
+export function clickDown() {
+    if (snake.yVelocity == -1 || snake.yVelocity == -2
+        || snake.yVelocity == -4) {
+        return;
+    }
+    if (snake.sumFruits <= 2) {
+        snake.xVelocity = 0;
+        snake.yVelocity = 1;
+    } else if (snake.sumFruits <= 4) {
+        snake.xVelocity = 0;
+        snake.yVelocity = 2;
+    } else if (snake.sumFruits >= 4) {
+        snake.xVelocity = 0;
+        snake.yVelocity = 4;
+    }
+    // передаём погрешность img относительно направления
+    // глаза
+    snake.offsetsEyseLeftX = 2;
+    snake.offsetsEyseLeftY = -17;
+    snake.offsetsEyseRightX = -17;
+    snake.offsetsEyseRightY = -17;
+    // нос
+    snake.offsetsMouthLeftX = 3;
+    snake.offsetsMouthLeftY = 3;
+    snake.offsetsMouthRightX = -3;
+    snake.offsetsMouthRightY = 3;
+}
+
+export function clickLeft() {
+    if (snake.xVelocity == 1 || snake.xVelocity == 2
+        || snake.xVelocity == 4) {
+        return;
+    }
+    if (snake.sumFruits <= 2) {
+        snake.xVelocity = -1;
+        snake.yVelocity = 0;
+    } else if (snake.sumFruits <= 4) {
+        snake.xVelocity = -2;
+        snake.yVelocity = 0;
+    } else if (snake.sumFruits >= 4) {
+        snake.xVelocity = -4;
+        snake.yVelocity = 0;
+    }
+    // передаём погрешность img относительно направления
+    // глаза
+    snake.offsetsEyseLeftX = 2;
+    snake.offsetsEyseLeftY = -17;
+    snake.offsetsEyseRightX = 2;
+    snake.offsetsEyseRightY = 1;
+    // нос
+    snake.offsetsMouthLeftX = -6;
+    snake.offsetsMouthLeftY = -3;
+    snake.offsetsMouthRightX = -6;
+    snake.offsetsMouthRightY = 3;
+}
+
+export function clickRight() {
+    if (snake.xVelocity == -1 || snake.xVelocity == -2
+        || snake.xVelocity == -4) {
+        return;
+    }
+    if (snake.sumFruits <= 2) {
+        snake.xVelocity = 1;
+        snake.yVelocity = 0;
+    } else if (snake.sumFruits <= 4) {
+        snake.xVelocity = 2;
+        snake.yVelocity = 0;
+    } else if (snake.sumFruits >= 4) {
+        snake.xVelocity = 4;
+        snake.yVelocity = 0;
+    }
+    // передаём погрешность img относительно направления
+    // глаза
+    snake.offsetsEyseLeftX = -17;
+    snake.offsetsEyseLeftY = -17;
+    snake.offsetsEyseRightX = -17;
+    snake.offsetsEyseRightY = 1;
+    // нос
+    snake.offsetsMouthLeftX = 6;
+    snake.offsetsMouthLeftY = -3;
+    snake.offsetsMouthRightX = 6;
+    snake.offsetsMouthRightY = 3;
+}
+
 // Обрабатываем события.
 export function keyDown(event) {
+    // отменяем стандартное действие браузера
+    event.preventDefault();
     // z - стоп
     if (event.keyCode == 90) {
         snake.xVelocity = 0;
@@ -184,114 +332,18 @@ export function keyDown(event) {
     }
     // up
     if (event.keyCode == 38) {
-        if (snake.yVelocity == 1 || snake.yVelocity == 2
-            || snake.yVelocity == 4) {
-            return;
-        }
-        if (snake.sumFruits <= 2) {
-            snake.xVelocity = 0;
-            snake.yVelocity = -1;
-        } else if (snake.sumFruits <= 4) {
-            snake.xVelocity = 0;
-            snake.yVelocity = -2;
-        } else if (snake.sumFruits >= 4) {
-            snake.xVelocity = 0;
-            snake.yVelocity = -4;
-        }
-        // передаём погрешность img относительно направления
-        // глаза
-        snake.offsetsEyseLeftX = -17;
-        snake.offsetsEyseLeftY = 1;
-        snake.offsetsEyseRightX = 3;
-        snake.offsetsEyseRightY = 1;
-        // нос
-        snake.offsetsMouthLeftX = -3;
-        snake.offsetsMouthLeftY = -5;
-        snake.offsetsMouthRightX = 3;
-        snake.offsetsMouthRightY = -5;
+        clickUp();
     }
     // down
     if (event.keyCode == 40) {
-        if (snake.yVelocity == -1 || snake.yVelocity == -2
-            || snake.yVelocity == -4) {
-            return;
-        }
-        if (snake.sumFruits <= 2) {
-            snake.xVelocity = 0;
-            snake.yVelocity = 1;
-        } else if (snake.sumFruits <= 4) {
-            snake.xVelocity = 0;
-            snake.yVelocity = 2;
-        } else if (snake.sumFruits >= 4) {
-            snake.xVelocity = 0;
-            snake.yVelocity = 4;
-        }
-        // передаём погрешность img относительно направления
-        // глаза
-        snake.offsetsEyseLeftX = 2;
-        snake.offsetsEyseLeftY = -17;
-        snake.offsetsEyseRightX = -17;
-        snake.offsetsEyseRightY = -17;
-        // нос
-        snake.offsetsMouthLeftX = 3;
-        snake.offsetsMouthLeftY = 3;
-        snake.offsetsMouthRightX = -3;
-        snake.offsetsMouthRightY = 3;
+        clickDown();
     }
     // left
     if (event.keyCode == 37) {
-        if (snake.xVelocity == 1 || snake.xVelocity == 2
-            || snake.xVelocity == 4) {
-            return;
-        }
-        if (snake.sumFruits <= 2) {
-            snake.xVelocity = -1;
-            snake.yVelocity = 0;
-        } else if (snake.sumFruits <= 4) {
-            snake.xVelocity = -2;
-            snake.yVelocity = 0;
-        } else if (snake.sumFruits >= 4) {
-            snake.xVelocity = -4;
-            snake.yVelocity = 0;
-        }
-        // передаём погрешность img относительно направления
-        // глаза
-        snake.offsetsEyseLeftX = 2;
-        snake.offsetsEyseLeftY = -17;
-        snake.offsetsEyseRightX = 2;
-        snake.offsetsEyseRightY = 1;
-        // нос
-        snake.offsetsMouthLeftX = -6;
-        snake.offsetsMouthLeftY = -3;
-        snake.offsetsMouthRightX = -6;
-        snake.offsetsMouthRightY = 3;
+        clickLeft();
     }
     // ritht
     if (event.keyCode == 39) {
-        if (snake.xVelocity == -1 || snake.xVelocity == -2
-            || snake.xVelocity == -4) {
-            return;
-        }
-        if (snake.sumFruits <= 2) {
-            snake.xVelocity = 1;
-            snake.yVelocity = 0;
-        } else if (snake.sumFruits <= 4) {
-            snake.xVelocity = 2;
-            snake.yVelocity = 0;
-        } else if (snake.sumFruits >= 4) {
-            snake.xVelocity = 4;
-            snake.yVelocity = 0;
-        }
-        // передаём погрешность img относительно направления
-        // глаза
-        snake.offsetsEyseLeftX = -17;
-        snake.offsetsEyseLeftY = -17;
-        snake.offsetsEyseRightX = -17;
-        snake.offsetsEyseRightY = 1;
-        // нос
-        snake.offsetsMouthLeftX = 6;
-        snake.offsetsMouthLeftY = -3;
-        snake.offsetsMouthRightX = 6;
-        snake.offsetsMouthRightY = 3;
+        clickRight();
     }
 }
