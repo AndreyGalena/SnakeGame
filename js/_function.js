@@ -204,9 +204,10 @@ export function isGameOver() {
     return gameOver;
 }
 
+// Действия при нажатии Up.
 export function clickUp() {
     if (snake.yVelocity == 1 || snake.yVelocity == 2
-        || snake.yVelocity == 4) {
+        || snake.yVelocity == 3) {
         return;
     }
     if (snake.sumFruits <= 2) {
@@ -217,7 +218,7 @@ export function clickUp() {
         snake.yVelocity = -2;
     } else if (snake.sumFruits >= 4) {
         snake.xVelocity = 0;
-        snake.yVelocity = -4;
+        snake.yVelocity = -3;
     }
     // передаём погрешность img относительно направления
     // глаза
@@ -231,10 +232,10 @@ export function clickUp() {
     snake.offsetsMouthRightX = 3;
     snake.offsetsMouthRightY = -5;
 }
-
+// Действия при нажатии Down.
 export function clickDown() {
     if (snake.yVelocity == -1 || snake.yVelocity == -2
-        || snake.yVelocity == -4) {
+        || snake.yVelocity == -3) {
         return;
     }
     if (snake.sumFruits <= 2) {
@@ -245,7 +246,7 @@ export function clickDown() {
         snake.yVelocity = 2;
     } else if (snake.sumFruits >= 4) {
         snake.xVelocity = 0;
-        snake.yVelocity = 4;
+        snake.yVelocity = 3;
     }
     // передаём погрешность img относительно направления
     // глаза
@@ -259,10 +260,10 @@ export function clickDown() {
     snake.offsetsMouthRightX = -3;
     snake.offsetsMouthRightY = 3;
 }
-
+// Действия при нажатии Left.
 export function clickLeft() {
     if (snake.xVelocity == 1 || snake.xVelocity == 2
-        || snake.xVelocity == 4) {
+        || snake.xVelocity == 3) {
         return;
     }
     if (snake.sumFruits <= 2) {
@@ -272,7 +273,7 @@ export function clickLeft() {
         snake.xVelocity = -2;
         snake.yVelocity = 0;
     } else if (snake.sumFruits >= 4) {
-        snake.xVelocity = -4;
+        snake.xVelocity = -3;
         snake.yVelocity = 0;
     }
     // передаём погрешность img относительно направления
@@ -287,10 +288,10 @@ export function clickLeft() {
     snake.offsetsMouthRightX = -6;
     snake.offsetsMouthRightY = 3;
 }
-
+// Действия при нажатии Right.
 export function clickRight() {
     if (snake.xVelocity == -1 || snake.xVelocity == -2
-        || snake.xVelocity == -4) {
+        || snake.xVelocity == -3) {
         return;
     }
     if (snake.sumFruits <= 2) {
@@ -300,7 +301,7 @@ export function clickRight() {
         snake.xVelocity = 2;
         snake.yVelocity = 0;
     } else if (snake.sumFruits >= 4) {
-        snake.xVelocity = 4;
+        snake.xVelocity = 3;
         snake.yVelocity = 0;
     }
     // передаём погрешность img относительно направления
