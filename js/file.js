@@ -3,8 +3,6 @@ import { drawSnake, Fruit, keyDown,
          drawHead, pushStartBody,
          drawSumFruits,
          isGameOver, 
-         clickUp, clickDown, 
-         clickLeft, clickRight, 
          mobilClick, screenSize} from './_function.js';
 import { snake } from './_variables.js';
 
@@ -18,7 +16,6 @@ let blockButton = document.querySelector(".blockButton");
 if(detect.mobile()) {
     blockButton.style.display = "block";
     let arrwe = blockButton.style;
-    console.log(arrwe);
 }
 
 export  let cvs = document.getElementById("canvas"), // cvs = canvas

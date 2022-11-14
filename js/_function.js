@@ -59,16 +59,12 @@ export function screenSize() {
 export function mobilClick(event) {
     let element = event.target;
     if(element.classList.contains("arrowImgUp")){
-        console.log("Up");
         clickUp();
     }else if(element.classList.contains("arrowImgDown")) {
-        console.log("Down");
         clickDown();
     }else if(element.classList.contains("arrowImgLeft")) {
-        console.log("Left");
         clickLeft();
     }else if(element.classList.contains("arrowImgRight")) {
-        console.log("Right");
         clickRight();
     }
 }
@@ -158,7 +154,7 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
-    ctx.fillText(snake.os, 10, 30);
+    // ctx.fillText(snake.os, 10, 30); // OS
 }
 
 // Двигаем змею.
