@@ -2,11 +2,6 @@ import { ctx, cvs, partsTile } from './file.js';
 import { snake, imgEyes, imgApple } from './_variables.js';
 
 const gulpSound = new Audio("./music/hrum.mp3");
-// Определяет устройство.
-// export function myOS(detect) {
-//     document.write('Моя OS ' + detect.os() + "<br>");
-//     console.log('Моя OS ' + detect.os());
-// }
 
 // Класс кусочков тела
 export class Body {
