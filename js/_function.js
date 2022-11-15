@@ -1,48 +1,14 @@
 import { ctx, cvs, partsTile } from './file.js';
 import { snake, imgEyes, imgApple } from './_variables.js';
+import { Body } from './_class.js';
 
-const gulpSound = new Audio("./music/hrum.mp3");
-
-// Класс кусочков тела
-export class Body {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.color = '#197440';
-        this.r = 10;
-    }
-
-    // Метод прорисовки круга(кусочка тела)
-    drawBody() {
-        ctx.fillStyle = this.color;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2, false);
-        ctx.fill();
-    }
-}
-
-// Класс фруктов
-export class Fruit {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    // Рисуем фрукт
-    drawFruit() {
-        ctx.drawImage(imgApple, this.x, this.y, 40, 40);
-    }
-
-    // Обработка столкновений.
-    collision() {
-        if ((this.x < snake.headX && (this.x + 40) > snake.headX) && (this.y < snake.headY && (this.y + 40) > snake.headY)) {
-            gulpSound.play(); // проигрует звук.
-            this.x = Math.floor(Math.random() * (cvs.width-35));
-            this.y = Math.floor(Math.random() * 360);
-            // snake.bodyLength += 20; // длина змии.
-            snake.sumFruits++; // количество яблок
-        }
-    }
+// Если на мобильном
+export function mobileButtons(detect) {
+    // добавить кнопки.
+    let blockButton = document.querySelector(".blockButton");
+    blockButton.style.display = "block";
+    // Обработка событий на мобильном устройстве.
+    blockButton.addEventListener("click", mobilClick);
 }
 
 // Задаём размер игровой доски.
@@ -71,7 +37,7 @@ export function mobilClick(event) {
 
 // Придворительное создание тела
 export function pushStartBody() {
-    let stepBody = 0;
+    // let stepBody = 0;
     for (let i = 0; i < snake.bodyLength; i++) {
         partsTile.push(new Body(snake.headX - snake.bodyLength + i,
             snake.headY));

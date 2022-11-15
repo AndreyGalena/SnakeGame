@@ -1,10 +1,10 @@
-import { drawSnake, Fruit, keyDown, 
+import { drawSnake, keyDown, 
          changeSnakePosition, 
          drawHead, pushStartBody,
          drawSumFruits,
-         isGameOver, 
-         mobilClick, screenSize} from './_function.js';
+         isGameOver, screenSize, mobileButtons } from './_function.js';
 import { snake } from './_variables.js';
+import { Fruit } from './_class.js';
 
 // Определение разришения экрана.
 snake.widthScrin = screen.width;
@@ -12,10 +12,12 @@ snake.widthScrin = screen.width;
 // Модуль определения устройства.
 let detect = new MobileDetect(window.navigator.userAgent);
 snake.os = detect.os();
-let blockButton = document.querySelector(".blockButton");
-if(detect.mobile()) {
-    blockButton.style.display = "block";
-    let arrwe = blockButton.style;
+// Мобилка или компьютер.
+if(detect.mobile()){
+    mobileButtons(detect);
+} else {
+    // Обработчик событий на компьютере.
+    document.addEventListener('keydown', keyDown);
 }
 
 export  let cvs = document.getElementById("canvas"), // cvs = canvas
@@ -35,25 +37,18 @@ export const partsTile = [];
 // Фоновая музыка.
 // const sound = new Audio("./music/music.mp3");
 
-// Обработчик событий на компьютере.
-document.addEventListener('keydown', keyDown);
-
-// Обработка событий на мобильном устройстве.
-// let blockButton = document.querySelector(".blockButton");
-blockButton.addEventListener("click", mobilClick);
-
 // Цикл игры
 function drawGame(){
     if(isGameOver())
         return;
     // sound.play(); // проигрует звук.
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    changeSnakePosition();
-    drawSnake();
-    drawHead();
-    myFruit.drawFruit();
-    myFruit.collision();
-    drawSumFruits();
+    changeSnakePosition(); // двигаем змею.
+    drawSnake(); // рисуем змею
+    drawHead(); // голова, глаза, нос
+    myFruit.drawFruit(); // рисуем фрукт
+    myFruit.collision(); // проверяем на сталкновения
+    drawSumFruits(); // рисует сколько яблок скушено
     window.requestAnimationFrame(drawGame);
 };
 
