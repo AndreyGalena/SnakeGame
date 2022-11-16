@@ -162,7 +162,6 @@ export function isGameOver() {
         ctx.font = `${cvs.width / 10}px Verdana`;
         ctx.fillText("Game Over!", cvs.width / 6.5, cvs.height / 2);
     }
-
     return gameOver;
 }
 
