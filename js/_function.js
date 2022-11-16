@@ -13,10 +13,10 @@ export function mobileButtons(detect) {
 
 // Задаём размер игровой доски.
 export function screenSize() {
-    if(snake.widthScrin > 860){
+    if (snake.widthScrin > 860) {
         cvs.width = 860;
-    }else {
-        cvs.width  = snake.widthScrin - 20;
+    } else {
+        cvs.width = snake.widthScrin - 20;
     }
     cvs.height = 400;
 }
@@ -24,13 +24,14 @@ export function screenSize() {
 // Запускает событие при мобильных устройствах.
 export function mobilClick(event) {
     let element = event.target;
-    if(element.classList.contains("arrowImgUp")){
+    // если такой класс в объекте есть
+    if (element.classList.contains("arrowImgUp")) {
         clickUp();
-    }else if(element.classList.contains("arrowImgDown")) {
+    } else if (element.classList.contains("arrowImgDown")) {
         clickDown();
-    }else if(element.classList.contains("arrowImgLeft")) {
+    } else if (element.classList.contains("arrowImgLeft")) {
         clickLeft();
-    }else if(element.classList.contains("arrowImgRight")) {
+    } else if (element.classList.contains("arrowImgRight")) {
         clickRight();
     }
 }
@@ -56,7 +57,7 @@ export function drawSnake() {
         partsTile.push(new Body(snake.headX, snake.headY));
     }
 
-    // Удаляем лишний кусочки хвоста(удаляет начальный кусочек тела).
+    // Удаляем лишние кусочки хвоста(удаляет начальный кусочек тела).
     if (snake.xVelocity || snake.yVelocity) {
         while (partsTile.length > snake.bodyLength) {
             // удаляем нулевой элемент(происходит здвиг масива).
@@ -65,7 +66,7 @@ export function drawSnake() {
     }
 
     // Изменяем свойство последних обектов(кусочков)
-    if (partsTile.length > 45) {
+    if (partsTile.length > 33) {
         // изменяет хвост
         let t = 4;
         let b = 0;
@@ -120,7 +121,7 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
-    // ctx.fillText(snake.os, 10, 30); // OS
+    ctx.fillText(snake.bodyLength, 10, 30); // OS
 }
 
 // Двигаем змею.
@@ -171,15 +172,25 @@ export function clickUp() {
         || snake.yVelocity == 3) {
         return;
     }
+    // изменения скорости.
     if (snake.sumFruits <= 2) {
         snake.xVelocity = 0;
         snake.yVelocity = -1;
     } else if (snake.sumFruits <= 4) {
         snake.xVelocity = 0;
         snake.yVelocity = -2;
+        if (snake.twoSpeed) {
+            snake.bodyLength /= 2;
+            snake.twoSpeed = false;
+        }
     } else if (snake.sumFruits >= 4) {
         snake.xVelocity = 0;
         snake.yVelocity = -3;
+        if (snake.threeSpeed) {
+            snake.bodyLength = 100; // возврващаем начальное значение.
+            snake.bodyLength = Math.ceil(snake.bodyLength / 3);
+            snake.threeSpeed = false;
+        }
     }
     // передаём погрешность img относительно направления
     // глаза
@@ -205,9 +216,18 @@ export function clickDown() {
     } else if (snake.sumFruits <= 4) {
         snake.xVelocity = 0;
         snake.yVelocity = 2;
+        if (snake.twoSpeed) {
+            snake.bodyLength /= 2;
+            snake.twoSpeed = false;
+        }
     } else if (snake.sumFruits >= 4) {
         snake.xVelocity = 0;
         snake.yVelocity = 3;
+        if (snake.threeSpeed) {
+            snake.bodyLength = 100; // возврващаем начальное значение.
+            snake.bodyLength = Math.ceil(snake.bodyLength / 3);
+            snake.threeSpeed = false;
+        }
     }
     // передаём погрешность img относительно направления
     // глаза
@@ -233,9 +253,18 @@ export function clickLeft() {
     } else if (snake.sumFruits <= 4) {
         snake.xVelocity = -2;
         snake.yVelocity = 0;
+        if (snake.twoSpeed) {
+            snake.bodyLength /= 2;
+            snake.twoSpeed = false;
+        }
     } else if (snake.sumFruits >= 4) {
         snake.xVelocity = -3;
         snake.yVelocity = 0;
+        if (snake.threeSpeed) {
+            snake.bodyLength = 100; // возврващаем начальное значение.
+            snake.bodyLength = Math.ceil(snake.bodyLength / 3);
+            snake.threeSpeed = false;
+        }
     }
     // передаём погрешность img относительно направления
     // глаза
@@ -261,9 +290,18 @@ export function clickRight() {
     } else if (snake.sumFruits <= 4) {
         snake.xVelocity = 2;
         snake.yVelocity = 0;
+        if (snake.twoSpeed) {
+            snake.bodyLength /= 2;
+            snake.twoSpeed = false;
+        }
     } else if (snake.sumFruits >= 4) {
         snake.xVelocity = 3;
         snake.yVelocity = 0;
+        if (snake.threeSpeed) {
+            snake.bodyLength = 100; // возврващаем начальное значение.
+            snake.bodyLength = Math.ceil(snake.bodyLength / 3);
+            snake.threeSpeed = false;
+        }
     }
     // передаём погрешность img относительно направления
     // глаза

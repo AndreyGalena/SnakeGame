@@ -1,10 +1,10 @@
-export  let imgEyes = new Image();
-        imgEyes.src = './img/snake-parts/blink.png';
+export let imgEyes = new Image();
+imgEyes.src = './img/snake-parts/blink.png';
 
-export  let imgApple = new Image();
-        imgApple.src = './img/fruits/target1.png';
+export let imgApple = new Image();
+imgApple.src = './img/fruits/target1.png';
 
-export let snake = {  
+export let snake = {
         headX: 0,
         headY: 0,
         xVelocity: 0,
@@ -14,17 +14,19 @@ export let snake = {
         sumFruits: 0,
         font: 50,
         // смещение при поворотах.
-        offsetsEyseLeftX:  -17,
-        offsetsEyseLeftY:  -17,
+        offsetsEyseLeftX: -17,
+        offsetsEyseLeftY: -17,
         offsetsEyseRightX: -17,
-        offsetsEyseRightY:  1,
-        offsetsMouthLeftX:  6,
+        offsetsEyseRightY: 1,
+        offsetsMouthLeftX: 6,
         offsetsMouthLeftY: -3,
         offsetsMouthRightX: 6,
         offsetsMouthRightY: 3,
         // количество кусочков тела.
-        bodyLength: 10,
-
+        twoSpeed: true,
+        threeSpeed: true,
+        bodyLength: 100,
+        // мобильные переменные.
         os: 0,
         widthScrin: 0,
 }
