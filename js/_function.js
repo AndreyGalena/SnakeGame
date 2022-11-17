@@ -121,7 +121,7 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
-    ctx.fillText(snake.bodyLength, 10, 30); // 
+    // ctx.fillText(snake.bodyLength, 10, 30); // 
 }
 
 // Двигаем змею.
