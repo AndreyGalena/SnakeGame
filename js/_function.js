@@ -121,7 +121,7 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
-    // ctx.fillText(snake.bodyLength, 10, 30); // 
+    ctx.fillText(snake.bodyLength, 10, 30); // 
 }
 
 // Двигаем змею.
@@ -207,10 +207,14 @@ export function clickUp() {
     } else if (snake.sumFruits >= snake.threeFruits) {
         snake.xVelocity = 0;
         snake.yVelocity = -3;
+        console.log(snake.threeSpeed);
         if (snake.threeSpeed) {
-            snake.bodyLength = 300; // возврващаем начальное значение.
+            console.log(snake.bodyLength);
+            snake.bodyLength = 450; // возврващаем начальное значение.
+            console.log(snake.bodyLength);
             snake.bodyLength = Math.ceil(snake.bodyLength / 3);
             snake.threeSpeed = false;
+            console.log(snake.bodyLength);
         }
     }
 
@@ -246,7 +250,7 @@ export function clickDown() {
         snake.xVelocity = 0;
         snake.yVelocity = 3;
         if (snake.threeSpeed) {
-            snake.bodyLength = 100; // возврващаем начальное значение.
+            snake.bodyLength = 450; // возврващаем начальное значение.
             snake.bodyLength = Math.ceil(snake.bodyLength / 3);
             snake.threeSpeed = false;
         }
@@ -283,7 +287,7 @@ export function clickLeft() {
         snake.xVelocity = -3;
         snake.yVelocity = 0;
         if (snake.threeSpeed) {
-            snake.bodyLength = 100; // возврващаем начальное значение.
+            snake.bodyLength = 450; // возврващаем начальное значение.
             snake.bodyLength = Math.ceil(snake.bodyLength / 3);
             snake.threeSpeed = false;
         }
@@ -320,7 +324,7 @@ export function clickRight() {
         snake.xVelocity = 3;
         snake.yVelocity = 0;
         if (snake.threeSpeed) {
-            snake.bodyLength = 100; // возврващаем начальное значение.
+            snake.bodyLength = 450; // возврващаем начальное значение.
             snake.bodyLength = Math.ceil(snake.bodyLength / 3);
             snake.threeSpeed = false;
         }
