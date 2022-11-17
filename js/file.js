@@ -2,7 +2,8 @@ import { drawSnake, keyDown,
          changeSnakePosition, 
          drawHead, pushStartBody,
          drawSumFruits,
-         isGameOver, screenSize, mobileButtons } from './_function.js';
+         isGameOver, screenSize, mobileButtons,
+         isWon } from './_function.js';
 import { snake } from './_variables.js';
 import { Fruit } from './_class.js';
 
@@ -40,6 +41,8 @@ export const partsTile = [];
 // Цикл игры
 function drawGame(){
     if(isGameOver())
+        return;
+    if(isWon())
         return;
     // sound.play(); // проигрует звук.
     ctx.clearRect(0, 0, canvas.width, canvas.height);

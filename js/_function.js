@@ -121,7 +121,7 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
-    ctx.fillText(snake.bodyLength, 10, 30); // OS
+    // ctx.fillText(snake.bodyLength, 10, 30); // 
 }
 
 // Двигаем змею.
@@ -130,18 +130,38 @@ export function changeSnakePosition() {
     snake.headY = snake.headY + snake.yVelocity;
 }
 
+// Проверка на выйграш
+export function isWon() {
+    let youWon = false;
+
+    // Проверка на выполнения задания(выйгрыш).
+    if(snake.sumFruits == 30) {
+        // работа с градиентом.
+        let gradient = ctx.createLinearGradient(0, 0, cvs.width, 0);
+        gradient.addColorStop("0", "magenta");
+        gradient.addColorStop("0.5", "blue");
+        gradient.addColorStop("1.0", "red");
+        // вывод game over
+        ctx.fillStyle = gradient;
+        ctx.font = `${cvs.width / 10}px Verdana`;
+        ctx.fillText("Ура победа!", cvs.width / 6.5, cvs.height / 2);
+        youWon = true;
+    }
+    return youWon;
+}
+
 // Проверка на окончание игры
 export function isGameOver() {
     let gameOver = false;
 
-    // Столковения со стенами
+    // Столковения со стенами(проигрыш).
     if (snake.headX < 10 || snake.headX > (cvs.width - 10)) {
         gameOver = true;
     } else if (snake.headY < 10 || snake.headY > (cvs.height - 10)) {
         gameOver = true;
     }
 
-    // Обрабатывает столкновения головы и тела.
+    // Обрабатывает столкновения головы и тела(проигрыш).
     for (let i = 0; i < (partsTile.length - 50); i++) {
         let part = partsTile[i];
         if ((part.x - 15) < snake.headX && (part.x + 15) > snake.headX
@@ -172,26 +192,28 @@ export function clickUp() {
         || snake.yVelocity == 3) {
         return;
     }
+    
     // изменения скорости.
-    if (snake.sumFruits <= 2) {
+    if (snake.sumFruits <= snake.oneFruits) {
         snake.xVelocity = 0;
         snake.yVelocity = -1;
-    } else if (snake.sumFruits <= 4) {
+    } else if (snake.sumFruits <= snake.twoFruits) {
         snake.xVelocity = 0;
         snake.yVelocity = -2;
         if (snake.twoSpeed) {
             snake.bodyLength /= 2;
             snake.twoSpeed = false;
         }
-    } else if (snake.sumFruits >= 4) {
+    } else if (snake.sumFruits >= snake.threeFruits) {
         snake.xVelocity = 0;
         snake.yVelocity = -3;
         if (snake.threeSpeed) {
-            snake.bodyLength = 100; // возврващаем начальное значение.
+            snake.bodyLength = 300; // возврващаем начальное значение.
             snake.bodyLength = Math.ceil(snake.bodyLength / 3);
             snake.threeSpeed = false;
         }
     }
+
     // передаём погрешность img относительно направления
     // глаза
     snake.offsetsEyseLeftX = -17;
@@ -210,17 +232,17 @@ export function clickDown() {
         || snake.yVelocity == -3) {
         return;
     }
-    if (snake.sumFruits <= 2) {
+    if (snake.sumFruits <= snake.oneFruits) {
         snake.xVelocity = 0;
         snake.yVelocity = 1;
-    } else if (snake.sumFruits <= 4) {
+    } else if (snake.sumFruits <= snake.twoFruits) {
         snake.xVelocity = 0;
         snake.yVelocity = 2;
         if (snake.twoSpeed) {
             snake.bodyLength /= 2;
             snake.twoSpeed = false;
         }
-    } else if (snake.sumFruits >= 4) {
+    } else if (snake.sumFruits >= snake.threeFruits) {
         snake.xVelocity = 0;
         snake.yVelocity = 3;
         if (snake.threeSpeed) {
@@ -247,17 +269,17 @@ export function clickLeft() {
         || snake.xVelocity == 3) {
         return;
     }
-    if (snake.sumFruits <= 2) {
+    if (snake.sumFruits <= snake.oneFruits) {
         snake.xVelocity = -1;
         snake.yVelocity = 0;
-    } else if (snake.sumFruits <= 4) {
+    } else if (snake.sumFruits <= snake.twoFruits) {
         snake.xVelocity = -2;
         snake.yVelocity = 0;
         if (snake.twoSpeed) {
             snake.bodyLength /= 2;
             snake.twoSpeed = false;
         }
-    } else if (snake.sumFruits >= 4) {
+    } else if (snake.sumFruits >= snake.threeFruits) {
         snake.xVelocity = -3;
         snake.yVelocity = 0;
         if (snake.threeSpeed) {
@@ -284,17 +306,17 @@ export function clickRight() {
         || snake.xVelocity == -3) {
         return;
     }
-    if (snake.sumFruits <= 2) {
+    if (snake.sumFruits <= snake.oneFruits) {
         snake.xVelocity = 1;
         snake.yVelocity = 0;
-    } else if (snake.sumFruits <= 4) {
+    } else if (snake.sumFruits <= snake.twoFruits) {
         snake.xVelocity = 2;
         snake.yVelocity = 0;
         if (snake.twoSpeed) {
             snake.bodyLength /= 2;
             snake.twoSpeed = false;
         }
-    } else if (snake.sumFruits >= 4) {
+    } else if (snake.sumFruits >= snake.threeFruits) {
         snake.xVelocity = 3;
         snake.yVelocity = 0;
         if (snake.threeSpeed) {

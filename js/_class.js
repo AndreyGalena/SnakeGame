@@ -39,7 +39,7 @@ export class Fruit {
             gulpSound.play(); // проигрует звук.
             this.x = Math.floor(Math.random() * (cvs.width-35));
             this.y = Math.floor(Math.random() * 360);
-            // snake.bodyLength += 20; // длина змии.
+            snake.bodyLength += 20; // длина змии.
             snake.sumFruits++; // количество яблок
         }
     }

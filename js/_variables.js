@@ -13,6 +13,9 @@ export let snake = {
         fruitY: 176,
         sumFruits: 0,
         font: 50,
+        oneFruits: 2,
+        twoFruits: 10,
+        threeFruits: 10,
         // смещение при поворотах.
         offsetsEyseLeftX: -17,
         offsetsEyseLeftY: -17,
