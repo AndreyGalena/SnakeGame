@@ -1,5 +1,6 @@
 import { ctx, cvs } from './file.js';
 import { snake, imgApple } from './_variables.js';
+import { drawMouth } from './_function.js';
 
 const gulpSound = new Audio("./music/hrum.mp3");
 
@@ -41,6 +42,11 @@ export class Fruit {
             this.y = Math.floor(Math.random() * 360);
             snake.bodyLength += 20; // длина змии.
             snake.sumFruits++; // количество яблок
+        }
+
+        // Открытия рта.
+        if (((this.x-50) < snake.headX && (this.x+100) > snake.headX) && ((this.y-50) < snake.headY && (this.y+100) > snake.headY)) {
+            drawMouth();
         }
     }
 }

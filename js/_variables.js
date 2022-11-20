@@ -4,6 +4,9 @@ imgEyes.src = './img/snake-parts/blink.png';
 export let imgApple = new Image();
 imgApple.src = './img/fruits/target1.png';
 
+export let imgMouth = new Image();
+imgMouth.src = './img/snake-parts/eat.png';
+
 export let snake = {
         headX: 0,
         headY: 0,

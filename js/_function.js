@@ -1,6 +1,8 @@
 import { ctx, cvs, partsTile } from './file.js';
-import { snake, imgEyes, imgApple } from './_variables.js';
+import { snake, imgEyes, imgApple, imgMouth } from './_variables.js';
 import { Body } from './_class.js';
+
+const hit = new Audio("./music/udar.mp3");
 
 // Если на мобильном
 export function mobileButtons(detect) {
@@ -87,7 +89,8 @@ export function drawHead() {
     ctx.arc(snake.headX, snake.headY, 10, 0, Math.PI * 2, false);
     ctx.fill();
     drawEyes(); // глаза.
-    drawMouth(); // рот
+    drawNose(); // рот
+    // drawMouth();
 }
 
 // Рисует глаза.
@@ -101,8 +104,8 @@ function drawEyes() {
         snake.headX + snake.offsetsEyseRightX, snake.headY + snake.offsetsEyseRightY, 15, 15);// правый глаз
 }
 
-// Рисует рот.
-function drawMouth() {
+// Рисует нос.
+function drawNose() {
     ctx.fillStyle = "black";
     ctx.beginPath();
     ctx.arc(snake.headX + snake.offsetsMouthLeftX,
@@ -113,6 +116,23 @@ function drawMouth() {
         1, 0, Math.PI * 2, false);
     ctx.fill();
     // ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 15, 20);
+}
+
+// Рисуем рот
+export function drawMouth() {
+    if(snake.xVelocity == 1) {
+        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 25, 30);
+        console.log("xVelocity = 1");
+    } else if (snake.xVelocity == -1) {
+        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 25, 30);
+        console.log("xVelocity = -1");
+    } else if (snake.yVelocity == 1) {
+        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 25, 30);
+        console.log("yVelocity = 1");
+    } else if (snake.yVelocity == -1) {
+        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 25, 30);
+        console.log("yVelocity = -1");
+    }
 }
 
 // Вывод текста количество скушаных яблок.
@@ -156,8 +176,10 @@ export function isGameOver() {
 
     // Столковения со стенами(проигрыш).
     if (snake.headX < 10 || snake.headX > (cvs.width - 10)) {
+        hit.play(); // проигрывания удара о стену.
         gameOver = true;
     } else if (snake.headY < 10 || snake.headY > (cvs.height - 10)) {
+        hit.play(); // проигрывания удара о стену.
         gameOver = true;
     }
 
