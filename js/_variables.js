@@ -19,6 +19,7 @@ export let snake = {
         oneFruits: 2,
         twoFruits: 10,
         threeFruits: 10,
+        // musicOne: true,
         // смещение при поворотах.
         offsetsEyseLeftX: -17,
         offsetsEyseLeftY: -17,

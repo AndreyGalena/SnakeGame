@@ -2,6 +2,8 @@ import { ctx, cvs, partsTile } from './file.js';
 import { snake, imgEyes, imgApple, imgMouth } from './_variables.js';
 import { Body } from './_class.js';
 
+// Звук первый раунд.
+// const oneRaund = new Audio("./music/raund-1.mp3");
 const hit = new Audio("./music/udar.mp3");
 
 // Если на мобильном
@@ -90,7 +92,6 @@ export function drawHead() {
     ctx.fill();
     drawEyes(); // глаза.
     drawNose(); // рот
-    // drawMouth();
 }
 
 // Рисует глаза.
@@ -141,7 +142,11 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
-    // ctx.fillText(snake.bodyLength, 10, 30); // 
+    // ctx.fillText(snake.bodyLength, 10, 30); //
+    // if(snake.musicOne){
+    //     oneRaund.play();
+    //     snake.musicOne = false;
+    // }
 }
 
 // Двигаем змею.
@@ -189,6 +194,7 @@ export function isGameOver() {
         if ((part.x - 15) < snake.headX && (part.x + 15) > snake.headX
             &&
             (part.y - 15) < snake.headY && (part.y + 15) > snake.headY) {
+            hit.play(); // проигрывания удара о стену.
             gameOver = true;
             break;
         }
