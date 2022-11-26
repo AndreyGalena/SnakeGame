@@ -31,21 +31,23 @@ export class Fruit {
 
     // Рисуем фрукт
     drawFruit() {
-        ctx.drawImage(imgApple, this.x, this.y, 40, 40);
+        ctx.drawImage(snake.fruitList[snake.indexFruit], this.x, this.y, 40, 40);
     }
 
     // Обработка столкновений.
     collision() {
         if ((this.x < snake.headX && (this.x + 40) > snake.headX) && (this.y < snake.headY && (this.y + 40) > snake.headY)) {
             gulpSound.play(); // проигрует звук.
-            this.x = Math.floor(Math.random() * (cvs.width-35));
+            this.x = Math.floor(Math.random() * (cvs.width - 35));
             this.y = Math.floor(Math.random() * 360);
             snake.bodyLength += 20; // длина змии.
             snake.sumFruits++; // количество яблок
+            // Меняем фрукт.
+            snake.indexFruit = Math.floor(Math.random() * 3);
         }
 
         // Открытия рта.
-        if (((this.x-50) < snake.headX && (this.x+100) > snake.headX) && ((this.y-50) < snake.headY && (this.y+100) > snake.headY)) {
+        if (((this.x - 50) < snake.headX && (this.x + 100) > snake.headX) && ((this.y - 50) < snake.headY && (this.y + 100) > snake.headY)) {
             drawMouth();
         }
     }

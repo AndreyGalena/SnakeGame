@@ -42,11 +42,12 @@ export function mobilClick(event) {
 
 // Придворительное создание тела
 export function pushStartBody() {
-    // let stepBody = 0;
-    for (let i = 0; i < snake.bodyLength; i++) {
+    for (let i = 0; i < snake.bodyLength; i += snake.speed) {
         partsTile.push(new Body(snake.headX - snake.bodyLength + i,
             snake.headY));
     }
+    // Компенсируем скорость.
+    snake.bodyLength = Math.round(snake.bodyLength / snake.speed);
 }
 
 // Выводим и пересоздаём кусочки тела.
@@ -70,7 +71,7 @@ export function drawSnake() {
     }
 
     // Изменяем свойство последних обектов(кусочков)
-    if (partsTile.length > 33) {
+    if (partsTile.length > 30) {
         // изменяет хвост
         let t = 4;
         let b = 0;
@@ -116,23 +117,29 @@ function drawNose() {
         snake.headY + snake.offsetsMouthRightY,
         1, 0, Math.PI * 2, false);
     ctx.fill();
-    // ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 15, 20);
 }
 
-// Рисуем рот
+function drawRotatedImage(image, x, y, angle) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle * Math.PI / 180);
+    ctx.drawImage(image, -(image.width / 2), -(image.height / 2));
+    ctx.restore();
+}
+
+// Рисуем рот ???????????????????????????????????????????????????????
 export function drawMouth() {
-    if(snake.xVelocity == 1) {
-        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 25, 30);
-        console.log("xVelocity = 1");
-    } else if (snake.xVelocity == -1) {
-        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 25, 30);
-        console.log("xVelocity = -1");
-    } else if (snake.yVelocity == 1) {
-        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 25, 30);
-        console.log("yVelocity = 1");
-    } else if (snake.yVelocity == -1) {
-        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX-3, snake.headY-10, 25, 30);
-        console.log("yVelocity = -1");
+    // drawRotatedImage(imgMouth, snake.headX, snake.headY, 90);
+    // ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX, snake.headY, 15, 20);
+
+    if (snake.xVelocity == snake.speed) {
+        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
+    } else if (snake.xVelocity == -snake.speed) {
+        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
+    } else if (snake.yVelocity == snake.speed) {
+        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
+    } else if (snake.yVelocity == -snake.speed) {
+        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
     }
 }
 
@@ -142,7 +149,7 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
-    // ctx.fillText(snake.bodyLength, 10, 30); //
+    ctx.fillText(snake.bodyLength, 10, 30); //
     // if(snake.musicOne){
     //     oneRaund.play();
     //     snake.musicOne = false;
@@ -158,9 +165,8 @@ export function changeSnakePosition() {
 // Проверка на выйграш
 export function isWon() {
     let youWon = false;
-
     // Проверка на выполнения задания(выйгрыш).
-    if(snake.sumFruits == 30) {
+    if (snake.sumFruits == 30) {
         // работа с градиентом.
         let gradient = ctx.createLinearGradient(0, 0, cvs.width, 0);
         gradient.addColorStop("0", "magenta");
@@ -216,36 +222,12 @@ export function isGameOver() {
 
 // Действия при нажатии Up.
 export function clickUp() {
-    if (snake.yVelocity == 1 || snake.yVelocity == 2
-        || snake.yVelocity == 3) {
+    if (snake.yVelocity == snake.speed) {
         return;
     }
-    
-    // изменения скорости.
-    if (snake.sumFruits <= snake.oneFruits) {
-        snake.xVelocity = 0;
-        snake.yVelocity = -1;
-    } else if (snake.sumFruits <= snake.twoFruits) {
-        snake.xVelocity = 0;
-        snake.yVelocity = -2;
-        if (snake.twoSpeed) {
-            snake.bodyLength /= 2;
-            snake.twoSpeed = false;
-        }
-    } else if (snake.sumFruits >= snake.threeFruits) {
-        snake.xVelocity = 0;
-        snake.yVelocity = -3;
-        console.log(snake.threeSpeed);
-        if (snake.threeSpeed) {
-            console.log(snake.bodyLength);
-            snake.bodyLength = 450; // возврващаем начальное значение.
-            console.log(snake.bodyLength);
-            snake.bodyLength = Math.ceil(snake.bodyLength / 3);
-            snake.threeSpeed = false;
-            console.log(snake.bodyLength);
-        }
-    }
-
+    // Задаём направление и скорость.
+    snake.xVelocity = 0;
+    snake.yVelocity = -snake.speed;
     // передаём погрешность img относительно направления
     // глаза
     snake.offsetsEyseLeftX = -17;
@@ -260,29 +242,12 @@ export function clickUp() {
 }
 // Действия при нажатии Down.
 export function clickDown() {
-    if (snake.yVelocity == -1 || snake.yVelocity == -2
-        || snake.yVelocity == -3) {
+    if (snake.yVelocity == -snake.speed) {
         return;
     }
-    if (snake.sumFruits <= snake.oneFruits) {
-        snake.xVelocity = 0;
-        snake.yVelocity = 1;
-    } else if (snake.sumFruits <= snake.twoFruits) {
-        snake.xVelocity = 0;
-        snake.yVelocity = 2;
-        if (snake.twoSpeed) {
-            snake.bodyLength /= 2;
-            snake.twoSpeed = false;
-        }
-    } else if (snake.sumFruits >= snake.threeFruits) {
-        snake.xVelocity = 0;
-        snake.yVelocity = 3;
-        if (snake.threeSpeed) {
-            snake.bodyLength = 450; // возврващаем начальное значение.
-            snake.bodyLength = Math.ceil(snake.bodyLength / 3);
-            snake.threeSpeed = false;
-        }
-    }
+    // Задаём направление и скорость.
+    snake.xVelocity = 0;
+    snake.yVelocity = snake.speed;
     // передаём погрешность img относительно направления
     // глаза
     snake.offsetsEyseLeftX = 2;
@@ -297,29 +262,12 @@ export function clickDown() {
 }
 // Действия при нажатии Left.
 export function clickLeft() {
-    if (snake.xVelocity == 1 || snake.xVelocity == 2
-        || snake.xVelocity == 3) {
+    if (snake.xVelocity == snake.speed) {
         return;
     }
-    if (snake.sumFruits <= snake.oneFruits) {
-        snake.xVelocity = -1;
-        snake.yVelocity = 0;
-    } else if (snake.sumFruits <= snake.twoFruits) {
-        snake.xVelocity = -2;
-        snake.yVelocity = 0;
-        if (snake.twoSpeed) {
-            snake.bodyLength /= 2;
-            snake.twoSpeed = false;
-        }
-    } else if (snake.sumFruits >= snake.threeFruits) {
-        snake.xVelocity = -3;
-        snake.yVelocity = 0;
-        if (snake.threeSpeed) {
-            snake.bodyLength = 450; // возврващаем начальное значение.
-            snake.bodyLength = Math.ceil(snake.bodyLength / 3);
-            snake.threeSpeed = false;
-        }
-    }
+    // Задаём направление и скорость.
+    snake.xVelocity = -snake.speed;
+    snake.yVelocity = 0;
     // передаём погрешность img относительно направления
     // глаза
     snake.offsetsEyseLeftX = 2;
@@ -334,29 +282,12 @@ export function clickLeft() {
 }
 // Действия при нажатии Right.
 export function clickRight() {
-    if (snake.xVelocity == -1 || snake.xVelocity == -2
-        || snake.xVelocity == -3) {
+    if (snake.xVelocity == -snake.speed) {
         return;
     }
-    if (snake.sumFruits <= snake.oneFruits) {
-        snake.xVelocity = 1;
-        snake.yVelocity = 0;
-    } else if (snake.sumFruits <= snake.twoFruits) {
-        snake.xVelocity = 2;
-        snake.yVelocity = 0;
-        if (snake.twoSpeed) {
-            snake.bodyLength /= 2;
-            snake.twoSpeed = false;
-        }
-    } else if (snake.sumFruits >= snake.threeFruits) {
-        snake.xVelocity = 3;
-        snake.yVelocity = 0;
-        if (snake.threeSpeed) {
-            snake.bodyLength = 450; // возврващаем начальное значение.
-            snake.bodyLength = Math.ceil(snake.bodyLength / 3);
-            snake.threeSpeed = false;
-        }
-    }
+    // Задаём направление и скорость.
+    snake.xVelocity = snake.speed;
+    snake.yVelocity = 0;
     // передаём погрешность img относительно направления
     // глаза
     snake.offsetsEyseLeftX = -17;
