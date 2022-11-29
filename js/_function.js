@@ -8,6 +8,8 @@ const hit = new Audio("./music/udar.mp3");
 
 // Если на мобильном
 export function mobileButtons(detect) {
+    // Изменить скорость
+    snake.speed = 2;
     // добавить кнопки.
     let blockButton = document.querySelector(".blockButton");
     blockButton.style.display = "block";
