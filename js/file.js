@@ -3,8 +3,8 @@ import { drawSnake, keyDown,
          drawHead, pushStartBody,
          drawSumFruits,
          isGameOver, screenSize, mobileButtons,
-         isWon } from './_function.js';
-import { snake } from './_variables.js';
+         isWon, drawImgCenter } from './_function.js';
+import { snake, imgMouth } from './_variables.js';
 import { Fruit } from './_class.js';
 
 // Определение разришения экрана.

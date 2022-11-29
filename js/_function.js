@@ -119,27 +119,26 @@ function drawNose() {
     ctx.fill();
 }
 
-function drawRotatedImage(image, x, y, angle) {
+// Функйия для поворота рта.
+export function drawImgCenter(img, x, y, degrees) {
     ctx.save();
     ctx.translate(x, y);
-    ctx.rotate(angle * Math.PI / 180);
-    ctx.drawImage(image, -(image.width / 2), -(image.height / 2));
+    ctx.rotate(degrees * Math.PI / 180);
+    ctx.drawImage(img, 3, 65, 19, 32, 
+    -(img.width / 2), -(img.height / 15), 15, 20);
     ctx.restore();
-}
+};
 
-// Рисуем рот ???????????????????????????????????????????????????????
+// Рисуем рот
 export function drawMouth() {
-    // drawRotatedImage(imgMouth, snake.headX, snake.headY, 90);
-    // ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX, snake.headY, 15, 20);
-
     if (snake.xVelocity == snake.speed) {
         ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
     } else if (snake.xVelocity == -snake.speed) {
-        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
+        drawImgCenter(imgMouth, snake.headX-14, snake.headY-44, 180);
     } else if (snake.yVelocity == snake.speed) {
-        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
+        drawImgCenter(imgMouth, snake.headX-44, snake.headY+12, 90);
     } else if (snake.yVelocity == -snake.speed) {
-        ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
+        drawImgCenter(imgMouth, snake.headX+44, snake.headY-14, 270);
     }
 }
 
