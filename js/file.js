@@ -1,10 +1,12 @@
-import { drawSnake, keyDown, 
-         changeSnakePosition, 
-         drawHead, pushStartBody,
-         drawSumFruits,
-         isGameOver, screenSize, mobileButtons,
-         isWon, drawImgCenter } from './_function.js';
-import { snake, imgMouth } from './_variables.js';
+import {
+    drawSnake, keyDown,
+    changeSnakePosition,
+    drawHead, pushStartBody,
+    drawSumFruits,
+    isGameOver, screenSize, mobileButtons,
+    isWon
+} from './_function.js';
+import { snake } from './_variables.js';
 import { Fruit } from './_class.js';
 
 // Определение разришения экрана.
@@ -14,15 +16,15 @@ snake.widthScrin = screen.width;
 let detect = new MobileDetect(window.navigator.userAgent);
 snake.os = detect.os();
 // Мобилка или компьютер.
-if(detect.mobile()){
+if (detect.mobile()) {
     mobileButtons(detect);
 } else {
     // Обработчик событий на компьютере.
     document.addEventListener('keydown', keyDown);
 }
 
-export  let cvs = document.getElementById("canvas"), // cvs = canvas
-            ctx = cvs.getContext('2d');  // cts = context
+export let cvs = document.getElementById("canvas"), // cvs = canvas
+    ctx = cvs.getContext('2d');  // cts = context
 // Задать размер игровой доски.
 screenSize();
 
@@ -39,10 +41,10 @@ export const partsTile = [];
 // const sound = new Audio("./music/music.mp3");
 
 // Цикл игры
-function drawGame(){
-    if(isGameOver())
+function drawGame() {
+    if (isGameOver())
         return;
-    if(isWon())
+    if (isWon())
         return;
     // sound.play(); // проигрует звук.
     ctx.clearRect(0, 0, canvas.width, canvas.height);

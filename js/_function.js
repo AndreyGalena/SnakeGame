@@ -124,8 +124,8 @@ export function drawImgCenter(img, x, y, degrees) {
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate(degrees * Math.PI / 180);
-    ctx.drawImage(img, 3, 65, 19, 32, 
-    -(img.width / 2), -(img.height / 15), 15, 20);
+    ctx.drawImage(img, 3, 65, 19, 32,
+        -(img.width / 2), -(img.height / 15), 15, 20);
     ctx.restore();
 };
 
@@ -134,11 +134,11 @@ export function drawMouth() {
     if (snake.xVelocity == snake.speed) {
         ctx.drawImage(imgMouth, 3, 65, 19, 32, snake.headX - 3, snake.headY - 10, 15, 20);
     } else if (snake.xVelocity == -snake.speed) {
-        drawImgCenter(imgMouth, snake.headX-14, snake.headY-44, 180);
+        drawImgCenter(imgMouth, snake.headX - 14, snake.headY - 44, 180);
     } else if (snake.yVelocity == snake.speed) {
-        drawImgCenter(imgMouth, snake.headX-44, snake.headY+12, 90);
+        drawImgCenter(imgMouth, snake.headX - 44, snake.headY + 12, 90);
     } else if (snake.yVelocity == -snake.speed) {
-        drawImgCenter(imgMouth, snake.headX+44, snake.headY-14, 270);
+        drawImgCenter(imgMouth, snake.headX + 44, snake.headY - 14, 270);
     }
 }
 
@@ -148,7 +148,7 @@ export function drawSumFruits() {
     ctx.font = "20px Verdana"; // размер, имя_шрифта
     ctx.fillText(":" + snake.sumFruits, canvas.width - 40, 30);
     ctx.drawImage(imgApple, canvas.width - 70, 5, 30, 30);
-    ctx.fillText(snake.bodyLength, 10, 30); //
+    // ctx.fillText(snake.bodyLength, 10, 30); //
     // if(snake.musicOne){
     //     oneRaund.play();
     //     snake.musicOne = false;
